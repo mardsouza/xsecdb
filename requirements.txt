@@ -10,4 +10,7 @@ itsdangerous==2.0.0
 ordereddict==1.1
 pymongo==4.3.2
 six==1.10.0
+pycurl==7.48.0
+pyyaml==6.0.3
+tqdm==4.70.1
  

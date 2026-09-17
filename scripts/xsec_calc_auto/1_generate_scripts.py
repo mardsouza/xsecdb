@@ -8,7 +8,8 @@ CAMPAIGN = "RunIII2024Summer24"
 
 CMSSW_VERSION = "CMSSW_15_0_2"
 DATATIER = "MINIAODSIM"
-DAS_QUERY = f"/*/*{CAMPAIGN}*/{DATATIER}"
+#DAS_QUERY = f"/*/*{CAMPAIGN}*/{DATATIER}"
+DAS_QUERY = "/DYto2E_MLL-50to120_TuneCP5_13p6TeV_powheg-pythia8/Run3Summer22MiniAODv3-124X_mcRun3_2022_realistic_v12-v2/MINIAODSIM"
 
 
 def clean_up_cache(cache_files=['datasets.yaml', 'executable/', 'condor/', 'json/']):
@@ -17,7 +18,7 @@ def clean_up_cache(cache_files=['datasets.yaml', 'executable/', 'condor/', 'json
 
 
 def inquire_datasets_from_DAS(outname='datasets', query=DAS_QUERY):
-    os.system(f"voms-proxy-init -voms cms -valid 192:0")
+    # os.system(f"voms-proxy-init -voms cms -valid 192:0")
     print(f"Inquiring datasets matching {query}")
     os.system(f"/cvmfs/cms.cern.ch/common/dasgoclient --query=\"dataset dataset={query}\" --limit=-1 > {outname}.txt")
     with open(f'{outname}.txt', 'r', encoding='utf-8') as f:
@@ -35,14 +36,14 @@ def check_XSDB_records(datasets: list, xsdb_url='https://xsecdb-xsdb-official.ap
 
     # you can also create the cookie manually
     #os.remove(os.path.expanduser("~/private/xsdbdev-cookie.txt"))
-    #os.system(f"auth-get-sso-cookie -u {xsdb_url} -o ~/private/xsdbdev-cookie.txt")
+    #os.system(f"auth-get-sso-cookie -u https://xsecdb-xsdb-official.app.cern.ch -o ~/private/xsdbdev-cookie.txt")
 
     c = pycurl.Curl()
     c.setopt(c.FOLLOWLOCATION, 1)
     c.setopt(c.COOKIEJAR, os.path.expanduser("~/private/xsdbdev-cookie.txt"))
     c.setopt(c.COOKIEFILE, os.path.expanduser("~/private/xsdbdev-cookie.txt"))
     c.setopt(c.HTTPHEADER, ['Content-Type:application/json', 'Accept:application/json'])
-    c.setopt(c.VERBOSE, False)  # set to True for debug
+    c.setopt(c.VERBOSE, True)  # set to True for debug
     api_url = os.path.join(xsdb_url, 'api')
     c.setopt(c.URL, os.path.join(api_url, 'search'))
     c.setopt(c.POST, True)

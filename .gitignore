@@ -8,3 +8,5 @@ scripts/cookie*
 jsconfig.json
 scripts/xsec_calc_auto/.crab_word
 .ipynb_checkpoints/
+.xsdb-sing
+.xsecdb
